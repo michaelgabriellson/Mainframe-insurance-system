@@ -1,0 +1,1018 @@
+INSMAP   DFHMSD TYPE=&SYSPARM,                                         X
+               MODE=INOUT,                                             X
+               CTRL=FREEKB,                                            X
+               LANG=COBOL,                                             X
+               TIOAPFX=YES,                                            X
+               DSATTS=COLOR,                                           X
+               MAPATTS=COLOR,                                          X
+               STORAGE=AUTO
+***********************************************************************
+HOMESCR  DFHMDI SIZE=(24,80),LINE=1,COLUMN=1
+***********************************************************************
+* TITLE
+***********************************************************************
+         DFHMDF POS=(01,28),                                           X
+               LENGTH=26,                                              X
+               ATTRB=PROT,                                             X
+               COLOR=GREEN,                                            X
+               INITIAL='GROUP 3 GRADUATION PROJECT'
+***********************************************************************
+* TEXT FOR NAMES
+***********************************************************************
+NAMESTXT     DFHMDF POS=(03,02),                                       X
+               LENGTH=75,                                              X
+               ATTRB=(BRT,PROT),                                       X
+               COLOR=GREEN,                                            X
+               INITIAL='MICHAEL GABRIELLSON | CARL-HENRIK ALM | HADI TAX
+               GHILOUEI | ANDREAS NILSSON |'
+***********************************************************************
+* TEXT FOR PROJECT
+***********************************************************************
+STAR1TXT     DFHMDF POS=(04,02),                                       X
+               LENGTH=75,                                              X
+               ATTRB=(BRT,PROT),                                       X
+               COLOR=GREEN,                                            X
+               INITIAL='***********************************************X
+               ****************************'
+***********************************************************************
+* TEXT FOR PROJECT
+***********************************************************************
+PROJECTTXT   DFHMDF POS=(05,24),                                       X
+               LENGTH=33,                                              X
+               ATTRB=(BRT,PROT),                                       X
+               COLOR=GREEN,                                            X
+               INITIAL='PROJECT -> INSURE CUSTOMER PORTAL'
+***********************************************************************
+* TEXT FOR PROJECT
+***********************************************************************
+STAR2TXT     DFHMDF POS=(06,24),                                       X
+               LENGTH=32,                                              X
+               ATTRB=(BRT,PROT),                                       X
+               COLOR=GREEN,                                            X
+               INITIAL='********************************'
+***********************************************************************
+* TEXT FOR PROJECT
+***********************************************************************
+TAB1TXT      DFHMDF POS=(07,02),                                       X
+               LENGTH=57,                                              X
+               ATTRB=(BRT,PROT),                                       X
+               COLOR=GREEN,                                            X
+               INITIAL='3 DB2 TABLES :        1. CUSTOMER INFORMATION (X
+               CUSTID PK)'
+***********************************************************************
+* TEXT FOR PROJECT
+***********************************************************************
+TAB2TXT      DFHMDF POS=(08,24),                                       X
+               LENGTH=45,                                              X
+               ATTRB=(BRT,PROT),                                       X
+               COLOR=GREEN,                                            X
+               INITIAL='2. INSURANCE INFORMATION (INST PK, CUSTID FK)'
+***********************************************************************
+* TEXT FOR PROJECT
+***********************************************************************
+TAB3TXT      DFHMDF POS=(09,24),                                       X
+               LENGTH=46,                                              X
+               ATTRB=(BRT,PROT),                                       X
+               COLOR=GREEN,                                            X
+               INITIAL='3. INVOICE (INVOICEID PK, CUSTID FK, INSNR FK)'
+***********************************************************************
+* TEXT FOR STARS
+***********************************************************************
+STAR3TXT     DFHMDF POS=(10,02),                                       X
+               LENGTH=75,                                              X
+               ATTRB=(BRT,PROT),                                       X
+               COLOR=GREEN,                                            X
+               INITIAL='***********************************************X
+               ****************************'
+***********************************************************************
+* CICS TEXT
+***********************************************************************
+CICSTXT      DFHMDF POS=(11,02),                                       X
+               LENGTH=75,                                              X
+               ATTRB=(BRT,PROT),                                       X
+               COLOR=GREEN,                                            X
+               INITIAL='CICS  : 1 MAPSET | 4 MAPS (HOME | CUSTOMER PORTX
+               AL | EXT INSERT | STATISTICS'
+***********************************************************************
+* TEXT FOR STARS
+***********************************************************************
+STAR4TXT     DFHMDF POS=(12,02),                                       X
+               LENGTH=75,                                              X
+               ATTRB=(BRT,PROT),                                       X
+               COLOR=GREEN,                                            X
+               INITIAL='***********************************************X
+               ****************************'
+***********************************************************************
+* BATCH TEXT
+***********************************************************************
+BATCHTXT     DFHMDF POS=(13,02),                                       X
+               LENGTH=64,                                              X
+               ATTRB=(BRT,PROT),                                       X
+               COLOR=GREEN,                                            X
+               INITIAL='BATCH : 2 SUBMODULE | 1 FLATFILE | 1 XML | 1 CSX
+               V (ALL GDG 7 GEN)'
+***********************************************************************
+* TEXT FOR STARS
+***********************************************************************
+STAR5TXT     DFHMDF POS=(14,02),                                       X
+               LENGTH=75,                                              X
+               ATTRB=(BRT,PROT),                                       X
+               COLOR=GREEN,                                            X
+               INITIAL='***********************************************X
+               ****************************'
+***********************************************************************
+* BATCH TEXT
+***********************************************************************
+SPONSORTXT   DFHMDF POS=(16,18),                                       X
+               LENGTH=39,                                              X
+               ATTRB=(BRT,PROT),                                       X
+               COLOR=GREEN,                                            X
+               INITIAL='SPONSORED BY SALT APPLIED TECHNOLOGY AB'
+***********************************************************************
+* BATCH TEXT
+***********************************************************************
+SUPPORTTXT   DFHMDF POS=(18,26),                                       X
+               LENGTH=24,                                              X
+               ATTRB=(BRT,PROT),                                       X
+               COLOR=GREEN,                                            X
+               INITIAL='SUPPORTED BY SEMSTECY AB'
+***********************************************************************
+* EYES  TEXT
+***********************************************************************
+EYES1TXT     DFHMDF POS=(19,23),                                       X
+               LENGTH=02,                                              X
+               ATTRB=(BRT,PROT),                                       X
+               COLOR=GREEN,                                            X
+               INITIAL='..'
+***********************************************************************
+* EYES  TEXT
+***********************************************************************
+EYES2TXT     DFHMDF POS=(19,52),                                       X
+               LENGTH=02,                                              X
+               ATTRB=(BRT,PROT),                                       X
+               COLOR=GREEN,                                            X
+               INITIAL='..'
+***********************************************************************
+* BATCH TEXT
+***********************************************************************
+WEINSURETXT  DFHMDF POS=(20,22),                                       X
+               LENGTH=33,                                              X
+               ATTRB=(BRT,PROT),                                       X
+               COLOR=GREEN,                                            X
+               INITIAL='\--/ "WE INSURE EVERYTHING." \--/'
+***********************************************************************
+* BATCH TEXT
+***********************************************************************
+CONTACTTXT   DFHMDF POS=(23,01),                                       X
+               LENGTH=70,                                              X
+               ATTRB=(BRT,PROT),                                       X
+               COLOR=GREEN,                                            X
+               INITIAL='INSURE@INSURE.SE | TEL: 0X-XXXXXXX | INSUREGATAX
+               N 19 112 51 STOCKHOLM |'
+***********************************************************************
+* COMMANDS
+***********************************************************************
+         DFHMDF POS=(24,01),                                           X
+               LENGTH=59,                                              X
+               ATTRB=PROT,                                             X
+               COLOR=TURQUOISE,                                        X
+               INITIAL='F3=EXIT, F4=CUSTOMER PORTAL F5=INSERT SCREEN, FX
+               6=STATISTICS'
+***********************************************************************
+COPYINS  DFHMDI SIZE=(24,80),LINE=1,COLUMN=1
+***********************************************************************
+* TITLE
+***********************************************************************
+         DFHMDF POS=(01,28),                                           X
+               LENGTH=22,                                              X
+               ATTRB=PROT,                                             X
+               COLOR=GREEN,                                            X
+               INITIAL='INSURE CUSTOMER PORTAL'
+***********************************************************************
+* INSTRUCTIONS
+***********************************************************************
+         DFHMDF POS=(03,01),                                           X
+               LENGTH=14,                                              X
+               ATTRB=PROT,                                             X
+               COLOR=GREEN,                                            X
+               INITIAL='ACTION       :'
+ACTION   DFHMDF POS=(03,16),                                           X
+               LENGTH=1,                                               X
+               ATTRB=(UNPROT,IC),                                      X
+               PICIN='X(01)',                                          X
+               PICOUT='X(01)',                                         X
+               COLOR=TURQUOISE
+         DFHMDF POS=(03,18),                                           X
+               LENGTH=1,                                               X
+               ATTRB=ASKIP
+***********************************************************************
+* TEXT FOR TOTAL INSURANCE
+***********************************************************************
+INSURETEXT   DFHMDF POS=(03,49),                                       X
+               LENGTH=18,                                              X
+               ATTRB=(BRT,PROT),                                       X
+               COLOR=GREEN
+***********************************************************************
+* INSTRUCTIONS
+***********************************************************************
+TOTINSURE      DFHMDF POS=(03,68),                                     X
+               LENGTH=2,                                               X
+               ATTRB=PROT,                                             X
+               PICIN='9(02)',                                          X
+               PICOUT='9(02)',                                         X
+               COLOR=GREEN
+***********************************************************************
+* INSTRUCTIONS
+***********************************************************************
+         DFHMDF POS=(05,01),                                           X
+               LENGTH=14,                                              X
+               ATTRB=PROT,                                             X
+               COLOR=GREEN,                                            X
+               INITIAL='CUSTOMER ID  :'
+CUSTID   DFHMDF POS=(05,16),                                           X
+               LENGTH=2,                                               X
+               ATTRB=UNPROT,                                           X
+               PICIN='9(02)',                                          X
+               PICOUT='9(02)',                                         X
+               COLOR=TURQUOISE
+         DFHMDF POS=(05,19),                                           X
+               LENGTH=1,                                               X
+               ATTRB=ASKIP
+***********************************************************************
+* TEXT FOR TOTAL PREMIUM
+***********************************************************************
+PREMIETEXT   DFHMDF POS=(05,49),                                       X
+               LENGTH=18,                                              X
+               ATTRB=(BRT,PROT),                                       X
+               COLOR=GREEN
+***********************************************************************
+* INSTRUCTIONS
+***********************************************************************
+TOTPREMIE      DFHMDF POS=(05,68),                                     X
+               LENGTH=4,                                               X
+               ATTRB=PROT,                                             X
+               PICIN='9(04)',                                          X
+               PICOUT='9(04)',                                         X
+               COLOR=GREEN
+***********************************************************************
+* INSTRUCTIONS
+***********************************************************************
+         DFHMDF POS=(07,01),                                           X
+               LENGTH=14,                                              X
+               ATTRB=PROT,                                             X
+               COLOR=GREEN,                                            X
+               INITIAL='FIRST NAME   :'
+FNAME    DFHMDF POS=(07,16),                                           X
+               LENGTH=15,                                              X
+               ATTRB=UNPROT,                                           X
+               PICIN='X(15)',                                          X
+               PICOUT='X(15)',                                         X
+               COLOR=TURQUOISE
+         DFHMDF POS=(07,32),                                           X
+               LENGTH=1,                                               X
+               ATTRB=ASKIP
+***********************************************************************
+* INSTRUCTIONS
+***********************************************************************
+         DFHMDF POS=(09,01),                                           X
+               LENGTH=14,                                              X
+               ATTRB=PROT,                                             X
+               COLOR=GREEN,                                            X
+               INITIAL='LAST NAME    :'
+LNAME    DFHMDF POS=(09,16),                                           X
+               LENGTH=15,                                              X
+               ATTRB=UNPROT,                                           X
+               PICIN='X(15)',                                          X
+               PICOUT='X(15)',                                         X
+               COLOR=TURQUOISE
+         DFHMDF POS=(09,32),                                           X
+               LENGTH=1,                                               X
+               ATTRB=ASKIP
+***********************************************************************
+* TEXT FOR CUSTOMER SCORE
+***********************************************************************
+SCORETEXT    DFHMDF POS=(09,49),                                       X
+               LENGTH=18,                                              X
+               ATTRB=(BRT,PROT),                                       X
+               COLOR=GREEN
+***********************************************************************
+* INSTRUCTIONS
+***********************************************************************
+CUSTSCORE      DFHMDF POS=(09,68),                                     X
+               LENGTH=2,                                               X
+               ATTRB=PROT,                                             X
+               PICIN='9(02)',                                          X
+               PICOUT='9(02)',                                         X
+               COLOR=GREEN
+***********************************************************************
+* INSTRUCTIONS
+***********************************************************************
+         DFHMDF POS=(11,01),                                           X
+               LENGTH=14,                                              X
+               ATTRB=PROT,                                             X
+               COLOR=GREEN,                                            X
+               INITIAL='DATE OF BIRTH:'
+DOB      DFHMDF POS=(11,16),                                           X
+               LENGTH=10,                                              X
+               ATTRB=UNPROT,                                           X
+               PICIN='X(10)',                                          X
+               PICOUT='X(10)',                                         X
+               COLOR=TURQUOISE
+         DFHMDF POS=(11,27),                                           X
+               LENGTH=1,                                               X
+               ATTRB=ASKIP
+***********************************************************************
+* TEXT FOR CUSTOMER SCORE
+***********************************************************************
+TOTCUSTTEXT  DFHMDF POS=(11,49),                                       X
+               LENGTH=18,                                              X
+               ATTRB=(BRT,PROT),                                       X
+               COLOR=GREEN
+***********************************************************************
+* INSTRUCTIONS
+***********************************************************************
+TOTCUST        DFHMDF POS=(11,68),                                     X
+               LENGTH=2,                                               X
+               ATTRB=PROT,                                             X
+               PICIN='9(02)',                                          X
+               PICOUT='9(02)',                                         X
+               COLOR=GREEN
+***********************************************************************
+* RESULT
+***********************************************************************
+MSG1     DFHMDF POS=(13,01),                                           X
+               LENGTH=80,                                              X
+               ATTRB=(BRT,PROT),                                       X
+               COLOR=TURQUOISE
+***********************************************************************
+* RESULT
+***********************************************************************
+MSG2     DFHMDF POS=(15,01),                                           X
+               LENGTH=80,                                              X
+               ATTRB=(BRT,PROT),                                       X
+               COLOR=TURQUOISE
+***********************************************************************
+* INSTRUCTIONS
+***********************************************************************
+         DFHMDF POS=(18,01),                                           X
+               LENGTH=14,                                              X
+               ATTRB=PROT,                                             X
+               COLOR=GREEN,                                            X
+               INITIAL='EMAIL        :'
+EMAIL    DFHMDF POS=(18,16),                                           X
+               LENGTH=40,                                              X
+               ATTRB=UNPROT,                                           X
+               PICIN='X(40)',                                          X
+               PICOUT='X(40)',                                         X
+               COLOR=TURQUOISE
+         DFHMDF POS=(18,57),                                           X
+               LENGTH=1,                                               X
+               ATTRB=ASKIP
+***********************************************************************
+* INSTRUCTIONS
+***********************************************************************
+         DFHMDF POS=(20,01),                                           X
+               LENGTH=14,                                              X
+               ATTRB=PROT,                                             X
+               COLOR=GREEN,                                            X
+               INITIAL='PHONE        :'
+PHONE    DFHMDF POS=(20,16),                                           X
+               LENGTH=10,                                              X
+               ATTRB=UNPROT,                                           X
+               PICIN='X(10)',                                          X
+               PICOUT='X(10)',                                         X
+               COLOR=TURQUOISE
+         DFHMDF POS=(20,27),                                           X
+               LENGTH=1,                                               X
+               ATTRB=ASKIP
+***********************************************************************
+* INSTRUCTIONS
+***********************************************************************
+         DFHMDF POS=(22,01),                                           X
+               LENGTH=14,                                              X
+               ATTRB=PROT,                                             X
+               COLOR=GREEN,                                            X
+               INITIAL='ADDRESS      :'
+ADDRESS  DFHMDF POS=(22,16),                                           X
+               LENGTH=30,                                              X
+               ATTRB=UNPROT,                                           X
+               PICIN='X(30)',                                          X
+               PICOUT='X(30)',                                         X
+               COLOR=TURQUOISE
+         DFHMDF POS=(22,47),                                           X
+               LENGTH=1,                                               X
+               ATTRB=ASKIP
+***********************************************************************
+* COMMANDS
+***********************************************************************
+         DFHMDF POS=(24,01),                                           X
+               LENGTH=49,                                              X
+               ATTRB=PROT,                                             X
+               COLOR=TURQUOISE,                                        X
+               INITIAL='F1=HELP, F3=EXIT, F5=INSERT SCREEN, F6=STATISTIX
+               CS'
+***********************************************************************
+SCNDSCR  DFHMDI SIZE=(24,80),LINE=1,COLUMN=1
+***********************************************************************
+* TITLE
+***********************************************************************
+         DFHMDF POS=(01,28),                                           X
+               LENGTH=18,                                              X
+               ATTRB=PROT,                                             X
+               COLOR=TURQUOISE,                                        X
+               INITIAL='INSURE INSERT PAGE'
+***********************************************************************
+* INSTRUCTIONS
+***********************************************************************
+         DFHMDF POS=(03,01),                                           X
+               LENGTH=14,                                              X
+               ATTRB=PROT,                                             X
+               COLOR=TURQUOISE,                                        X
+               INITIAL='ACTION       :'
+ACTION2  DFHMDF POS=(03,16),                                           X
+               LENGTH=1,                                               X
+               ATTRB=(UNPROT,IC),                                      X
+               PICIN='X(01)',                                          X
+               PICOUT='X(01)',                                         X
+               COLOR=GREEN
+         DFHMDF POS=(03,18),                                           X
+               LENGTH=1,                                               X
+               ATTRB=ASKIP
+***********************************************************************
+         DFHMDF POS=(03,49),                                           X
+               LENGTH=16,                                              X
+               ATTRB=PROT,                                             X
+               COLOR=TURQUOISE,                                        X
+               INITIAL='INSURANCE NR   :'
+INSNR   DFHMDF POS=(03,66),                                            X
+               LENGTH=04,                                              X
+               ATTRB=UNPROT,                                           X
+               PICIN='9(04)',                                          X
+               PICOUT='9(04)',                                         X
+               COLOR=GREEN
+         DFHMDF POS=(03,71),                                           X
+               LENGTH=1,                                               X
+               ATTRB=ASKIP
+***********************************************************************
+         DFHMDF POS=(05,01),                                           X
+               LENGTH=14,                                              X
+               ATTRB=PROT,                                             X
+               COLOR=TURQUOISE,                                        X
+               INITIAL='CUSTOMER ID  :'
+CUSTID2  DFHMDF POS=(05,16),                                           X
+               LENGTH=02,                                              X
+               ATTRB=UNPROT,                                           X
+               PICIN='9(02)',                                          X
+               PICOUT='9(02)',                                         X
+               COLOR=GREEN
+         DFHMDF POS=(05,19),                                           X
+               LENGTH=1,                                               X
+               ATTRB=ASKIP
+***********************************************************************
+         DFHMDF POS=(05,49),                                           X
+               LENGTH=16,                                              X
+               ATTRB=PROT,                                             X
+               COLOR=TURQUOISE,                                        X
+               INITIAL='INSURANCE TYPE :'
+INSTYPE  DFHMDF POS=(05,66),                                           X
+               LENGTH=06,                                              X
+               ATTRB=UNPROT,                                           X
+               PICIN='X(06)',                                          X
+               PICOUT='X(06)',                                         X
+               COLOR=GREEN
+         DFHMDF POS=(05,73),                                           X
+               LENGTH=1,                                               X
+               ATTRB=ASKIP
+***********************************************************************
+* INSTRUCTIONS
+***********************************************************************
+         DFHMDF POS=(07,01),                                           X
+               LENGTH=14,                                              X
+               ATTRB=PROT,                                             X
+               COLOR=TURQUOISE,                                        X
+               INITIAL='FIRST NAME   :'
+FNAME2   DFHMDF POS=(07,16),                                           X
+               LENGTH=15,                                              X
+               ATTRB=UNPROT,                                           X
+               PICIN='X(15)',                                          X
+               PICOUT='X(15)',                                         X
+               COLOR=GREEN
+         DFHMDF POS=(07,32),                                           X
+               LENGTH=1,                                               X
+               ATTRB=ASKIP
+***********************************************************************
+* INSTRUCTIONS
+***********************************************************************
+         DFHMDF POS=(07,49),                                           X
+               LENGTH=16,                                              X
+               ATTRB=PROT,                                             X
+               COLOR=TURQUOISE,                                        X
+               INITIAL='STARTDATE      :'
+STARTDATE DFHMDF POS=(07,66),                                          X
+               LENGTH=10,                                              X
+               ATTRB=UNPROT,                                           X
+               PICIN='X(10)',                                          X
+               PICOUT='X(10)',                                         X
+               COLOR=GREEN
+         DFHMDF POS=(07,77),                                           X
+               LENGTH=1,                                               X
+               ATTRB=ASKIP
+***********************************************************************
+* INSTRUCTIONS
+***********************************************************************
+         DFHMDF POS=(09,01),                                           X
+               LENGTH=14,                                              X
+               ATTRB=PROT,                                             X
+               COLOR=TURQUOISE,                                        X
+               INITIAL='LAST NAME    :'
+LNAME2   DFHMDF POS=(09,16),                                           X
+               LENGTH=15,                                              X
+               ATTRB=UNPROT,                                           X
+               PICIN='X(15)',                                          X
+               PICOUT='X(15)',                                         X
+               COLOR=GREEN
+         DFHMDF POS=(09,32),                                           X
+               LENGTH=1,                                               X
+               ATTRB=ASKIP
+***********************************************************************
+* INSTRUCTIONS
+***********************************************************************
+         DFHMDF POS=(09,49),                                           X
+               LENGTH=16,                                              X
+               ATTRB=PROT,                                             X
+               COLOR=TURQUOISE,                                        X
+               INITIAL='EXPIRY DATE    :'
+EXPIRYDATE DFHMDF POS=(09,66),                                         X
+               LENGTH=10,                                              X
+               ATTRB=UNPROT,                                           X
+               PICIN='X(10)',                                          X
+               PICOUT='X(10)',                                         X
+               COLOR=GREEN
+         DFHMDF POS=(09,77),                                           X
+               LENGTH=1,                                               X
+               ATTRB=ASKIP
+***********************************************************************
+* INSTRUCTIONS
+***********************************************************************
+         DFHMDF POS=(11,01),                                           X
+               LENGTH=14,                                              X
+               ATTRB=PROT,                                             X
+               COLOR=TURQUOISE,                                        X
+               INITIAL='DATE OF BIRTH:'
+DOB2     DFHMDF POS=(11,16),                                           X
+               LENGTH=10,                                              X
+               ATTRB=UNPROT,                                           X
+               PICIN='X(10)',                                          X
+               PICOUT='X(10)',                                         X
+               COLOR=GREEN
+         DFHMDF POS=(11,27),                                           X
+               LENGTH=1,                                               X
+               ATTRB=ASKIP
+***********************************************************************
+* INSTRUCTIONS
+***********************************************************************
+         DFHMDF POS=(11,49),                                           X
+               LENGTH=16,                                              X
+               ATTRB=PROT,                                             X
+               COLOR=TURQUOISE,                                        X
+               INITIAL='PREMIUM        :'
+PREMIE2  DFHMDF POS=(11,66),                                           X
+               LENGTH=04,                                              X
+               ATTRB=UNPROT,                                           X
+               PICIN='9(04)',                                          X
+               PICOUT='9(04)',                                         X
+               COLOR=GREEN
+         DFHMDF POS=(11,71),                                           X
+               LENGTH=1,                                               X
+               ATTRB=ASKIP
+***********************************************************************
+* INSTRUCTIONS
+***********************************************************************
+         DFHMDF POS=(13,01),                                           X
+               LENGTH=14,                                              X
+               ATTRB=PROT,                                             X
+               COLOR=TURQUOISE,                                        X
+               INITIAL='EMAIL        :'
+EMAIL2   DFHMDF POS=(13,16),                                           X
+               LENGTH=40,                                              X
+               ATTRB=UNPROT,                                           X
+               PICIN='X(40)',                                          X
+               PICOUT='X(40)',                                         X
+               COLOR=GREEN
+         DFHMDF POS=(13,57),                                           X
+               LENGTH=1,                                               X
+               ATTRB=ASKIP
+***********************************************************************
+* INSTRUCTIONS
+***********************************************************************
+         DFHMDF POS=(15,01),                                           X
+               LENGTH=14,                                              X
+               ATTRB=PROT,                                             X
+               COLOR=TURQUOISE,                                        X
+               INITIAL='PHONE        :'
+PHONE2   DFHMDF POS=(15,16),                                           X
+               LENGTH=10,                                              X
+               ATTRB=UNPROT,                                           X
+               PICIN='X(10)',                                          X
+               PICOUT='X(10)',                                         X
+               COLOR=GREEN
+         DFHMDF POS=(15,27),                                           X
+               LENGTH=1,                                               X
+               ATTRB=ASKIP
+***********************************************************************
+* INSTRUCTIONS
+***********************************************************************
+         DFHMDF POS=(15,49),                                           X
+               LENGTH=16,                                              X
+               ATTRB=PROT,                                             X
+               COLOR=TURQUOISE,                                        X
+               INITIAL='INVOICEID      :'
+INVOICEID  DFHMDF POS=(15,66),                                         X
+               LENGTH=05,                                              X
+               ATTRB=UNPROT,                                           X
+               PICIN='9(05)',                                          X
+               PICOUT='9(05)',                                         X
+               COLOR=GREEN
+         DFHMDF POS=(15,72),                                           X
+               LENGTH=1,                                               X
+               ATTRB=ASKIP
+***********************************************************************
+* INSTRUCTIONS
+***********************************************************************
+         DFHMDF POS=(17,01),                                           X
+               LENGTH=14,                                              X
+               ATTRB=PROT,                                             X
+               COLOR=TURQUOISE,                                        X
+               INITIAL='ADDRESS      :'
+ADDRESS2 DFHMDF POS=(17,16),                                           X
+               LENGTH=30,                                              X
+               ATTRB=UNPROT,                                           X
+               PICIN='X(30)',                                          X
+               PICOUT='X(30)',                                         X
+               COLOR=GREEN
+         DFHMDF POS=(17,47),                                           X
+               LENGTH=1,                                               X
+               ATTRB=ASKIP
+***********************************************************************
+* TEXT FOR MAXINVID
+***********************************************************************
+MAXINVIDTEXT DFHMDF POS=(17,49),                                       X
+               LENGTH=16,                                              X
+               ATTRB=(BRT,PROT),                                       X
+               COLOR=TURQUOISE
+***********************************************************************
+* INSTRUCTIONS
+***********************************************************************
+MAXINVOICEID   DFHMDF POS=(17,66),                                     X
+               LENGTH=5,                                               X
+               ATTRB=PROT,                                             X
+               PICIN='9(05)',                                          X
+               PICOUT='9(05)',                                         X
+               COLOR=TURQUOISE
+***********************************************************************
+* RESULT
+***********************************************************************
+MSG3     DFHMDF POS=(19,01),                                           X
+               LENGTH=29,                                              X
+               ATTRB=(BRT,PROT),                                       X
+               COLOR=GREEN
+***********************************************************************
+* MAXINSNR TEXT
+***********************************************************************
+MAXINSNRTEXT DFHMDF POS=(19,49),                                       X
+               LENGTH=16,                                              X
+               ATTRB=(BRT,PROT),                                       X
+               COLOR=TURQUOISE
+***********************************************************************
+* INSTRUCTIONS
+***********************************************************************
+MAXINSNR     DFHMDF POS=(19,66),                                       X
+               LENGTH=4,                                               X
+               ATTRB=PROT,                                             X
+               PICIN='9(04)',                                          X
+               PICOUT='9(04)',                                         X
+               COLOR=TURQUOISE
+***********************************************************************
+* MAXCUSTID TEXT
+***********************************************************************
+MAXCUSTIDTEXT DFHMDF POS=(21,49),                                      X
+               LENGTH=16,                                              X
+               ATTRB=(BRT,PROT),                                       X
+               COLOR=TURQUOISE
+***********************************************************************
+* INSTRUCTIONS
+***********************************************************************
+MAXCUSTID    DFHMDF POS=(21,66),                                       X
+               LENGTH=2,                                               X
+               ATTRB=PROT,                                             X
+               PICIN='9(02)',                                          X
+               PICOUT='9(02)',                                         X
+               COLOR=TURQUOISE
+***********************************************************************
+* COMMANDS
+***********************************************************************
+        DFHMDF POS=(24,01),                                            X
+               LENGTH=65,                                              X
+               ATTRB=PROT,                                             X
+               COLOR=GREEN,                                            X
+               INITIAL='F1=HELP, F3=EXIT, F4=CUSTOMER PORTAL, F6=STATISX
+               TICS, F10=MAX INFO'
+***********************************************************************
+STATS   DFHMDI SIZE=(24,80),LINE=1,COLUMN=1
+***********************************************************************
+* STATS TITLE
+***********************************************************************
+         DFHMDF POS=(01,01),                                           X
+               LENGTH=16,                                              X
+               ATTRB=PROT,                                             X
+               COLOR=GREEN,                                            X
+               INITIAL='DAILY CHANGES'
+***********************************************************************
+* STATS TITLE
+***********************************************************************
+         DFHMDF POS=(01,29),                                           X
+               LENGTH=10,                                              X
+               ATTRB=PROT,                                             X
+               COLOR=TURQUOISE,                                        X
+               INITIAL='STATISTICS'
+***********************************************************************
+* STATS TITLE
+***********************************************************************
+         DFHMDF POS=(01,45),                                           X
+               LENGTH=17,                                              X
+               ATTRB=PROT,                                             X
+               COLOR=GREEN,                                            X
+               INITIAL='WEEKLY CHANGES'
+***********************************************************************
+* UNDERLINE
+***********************************************************************
+UNDERLINE1   DFHMDF POS=(02,01),                                       X
+               LENGTH=22,                                              X
+               ATTRB=(BRT,PROT),                                       X
+               COLOR=GREEN,                                            X
+               INITIAL='______________________'
+***********************************************************************
+* UNDERLINE
+***********************************************************************
+UNDERLINE2   DFHMDF POS=(02,45),                                       X
+               LENGTH=22,                                              X
+               ATTRB=(BRT,PROT),                                       X
+               COLOR=GREEN,                                            X
+               INITIAL='______________________'
+***********************************************************************
+* INSTRUCTIONS
+***********************************************************************
+         DFHMDF POS=(05,01),                                           X
+               LENGTH=21,                                              X
+               ATTRB=PROT,                                             X
+               COLOR=GREEN,                                            X
+               INITIAL='TOTAL NEW CUSTOMERS :'
+DAILYNEWCUST DFHMDF POS=(05,23),                                       X
+               LENGTH=02,                                              X
+               ATTRB=UNPROT,                                           X
+               PICIN='9(02)',                                          X
+               PICOUT='9(02)',                                         X
+               COLOR=GREEN
+         DFHMDF POS=(05,26),                                           X
+               LENGTH=1,                                               X
+               ATTRB=ASKIP
+***********************************************************************
+* INSTRUCTIONS
+***********************************************************************
+         DFHMDF POS=(05,45),                                           X
+               LENGTH=21,                                              X
+               ATTRB=PROT,                                             X
+               COLOR=GREEN,                                            X
+               INITIAL='TOTAL NEW CUSTOMERS :'
+WEEKLYNEWCUST DFHMDF POS=(05,67),                                      X
+               LENGTH=02,                                              X
+               ATTRB=UNPROT,                                           X
+               PICIN='9(02)',                                          X
+               PICOUT='9(02)',                                         X
+               COLOR=GREEN
+         DFHMDF POS=(05,70),                                           X
+               LENGTH=1,                                               X
+               ATTRB=ASKIP
+***********************************************************************
+* INSTRUCTIONS
+***********************************************************************
+         DFHMDF POS=(06,01),                                           X
+               LENGTH=21,                                              X
+               ATTRB=PROT,                                             X
+               COLOR=GREEN,                                            X
+               INITIAL='TOTAL NEW INSURANCES:'
+DAILYNEWINS   DFHMDF POS=(06,23),                                      X
+               LENGTH=02,                                              X
+               ATTRB=UNPROT,                                           X
+               PICIN='9(02)',                                          X
+               PICOUT='9(02)',                                         X
+               COLOR=GREEN
+         DFHMDF POS=(06,26),                                           X
+               LENGTH=1,                                               X
+               ATTRB=ASKIP
+***********************************************************************
+* INSTRUCTIONS
+***********************************************************************
+         DFHMDF POS=(06,45),                                           X
+               LENGTH=21,                                              X
+               ATTRB=PROT,                                             X
+               COLOR=GREEN,                                            X
+               INITIAL='TOTAL NEW INSURANCES:'
+WEEKLYNEWINS   DFHMDF POS=(06,67),                                     X
+               LENGTH=02,                                              X
+               ATTRB=UNPROT,                                           X
+               PICIN='9(02)',                                          X
+               PICOUT='9(02)',                                         X
+               COLOR=GREEN
+         DFHMDF POS=(06,70),                                           X
+               LENGTH=1,                                               X
+               ATTRB=ASKIP
+***********************************************************************
+* INSTRUCTIONS
+***********************************************************************
+         DFHMDF POS=(07,01),                                           X
+               LENGTH=21,                                              X
+               ATTRB=PROT,                                             X
+               COLOR=GREEN,                                            X
+               INITIAL='TOTAL PREMIUM       :'
+DAILYNEWPREMIUM DFHMDF POS=(07,23),                                    X
+               LENGTH=06,                                              X
+               ATTRB=UNPROT,                                           X
+               PICIN='9(06)',                                          X
+               PICOUT='9(06)',                                         X
+               COLOR=GREEN
+         DFHMDF POS=(07,30),                                           X
+               LENGTH=1,                                               X
+               ATTRB=ASKIP
+***********************************************************************
+* INSTRUCTIONS
+***********************************************************************
+         DFHMDF POS=(07,45),                                           X
+               LENGTH=21,                                              X
+               ATTRB=PROT,                                             X
+               COLOR=GREEN,                                            X
+               INITIAL='TOTAL PREMIUM       :'
+WEEKLYNEWPREMIUM DFHMDF POS=(07,67),                                   X
+               LENGTH=07,                                              X
+               ATTRB=UNPROT,                                           X
+               PICIN='9(07)',                                          X
+               PICOUT='9(07)',                                         X
+               COLOR=GREEN
+         DFHMDF POS=(07,75),                                           X
+               LENGTH=1,                                               X
+               ATTRB=ASKIP
+***********************************************************************
+* STATS TITLE
+***********************************************************************
+         DFHMDF POS=(10,01),                                           X
+               LENGTH=18,                                              X
+               ATTRB=PROT,                                             X
+               COLOR=GREEN,                                            X
+               INITIAL='MONTHLY CHANGES'
+***********************************************************************
+* STATS TITLE
+***********************************************************************
+         DFHMDF POS=(10,45),                                           X
+               LENGTH=17,                                              X
+               ATTRB=PROT,                                             X
+               COLOR=GREEN,                                            X
+               INITIAL='YEARLY CHANGES'
+***********************************************************************
+* UNDERLINE
+***********************************************************************
+UNDERLINE3   DFHMDF POS=(11,01),                                       X
+               LENGTH=22,                                              X
+               ATTRB=(BRT,PROT),                                       X
+               COLOR=GREEN,                                            X
+               INITIAL='______________________'
+***********************************************************************
+* UNDERLINE
+***********************************************************************
+UNDERLINE4   DFHMDF POS=(11,45),                                       X
+               LENGTH=22,                                              X
+               ATTRB=(BRT,PROT),                                       X
+               COLOR=GREEN,                                            X
+               INITIAL='______________________'
+***********************************************************************
+* INSTRUCTIONS
+***********************************************************************
+         DFHMDF POS=(14,01),                                           X
+               LENGTH=21,                                              X
+               ATTRB=PROT,                                             X
+               COLOR=GREEN,                                            X
+               INITIAL='TOTAL NEW CUSTOMERS :'
+MONTHLYNEWCUST DFHMDF POS=(14,23),                                     X
+               LENGTH=02,                                              X
+               ATTRB=UNPROT,                                           X
+               PICIN='9(02)',                                          X
+               PICOUT='9(02)',                                         X
+               COLOR=GREEN
+         DFHMDF POS=(14,26),                                           X
+               LENGTH=1,                                               X
+               ATTRB=ASKIP
+***********************************************************************
+* INSTRUCTIONS
+***********************************************************************
+         DFHMDF POS=(14,45),                                           X
+               LENGTH=21,                                              X
+               ATTRB=PROT,                                             X
+               COLOR=GREEN,                                            X
+               INITIAL='TOTAL NEW CUSTOMERS :'
+YEARLYNEWCUST  DFHMDF POS=(14,67),                                     X
+               LENGTH=02,                                              X
+               ATTRB=UNPROT,                                           X
+               PICIN='9(02)',                                          X
+               PICOUT='9(02)',                                         X
+               COLOR=GREEN
+         DFHMDF POS=(14,70),                                           X
+               LENGTH=1,                                               X
+               ATTRB=ASKIP
+***********************************************************************
+* INSTRUCTIONS
+***********************************************************************
+         DFHMDF POS=(15,01),                                           X
+               LENGTH=21,                                              X
+               ATTRB=PROT,                                             X
+               COLOR=GREEN,                                            X
+               INITIAL='TOTAL NEW INSURANCES:'
+MONTHLYNEWINS  DFHMDF POS=(15,23),                                     X
+               LENGTH=02,                                              X
+               ATTRB=UNPROT,                                           X
+               PICIN='9(02)',                                          X
+               PICOUT='9(02)',                                         X
+               COLOR=GREEN
+         DFHMDF POS=(15,26),                                           X
+               LENGTH=1,                                               X
+               ATTRB=ASKIP
+***********************************************************************
+* INSTRUCTIONS
+***********************************************************************
+         DFHMDF POS=(15,45),                                           X
+               LENGTH=21,                                              X
+               ATTRB=PROT,                                             X
+               COLOR=GREEN,                                            X
+               INITIAL='TOTAL NEW INSURANCES:'
+YEARLYNEWINS   DFHMDF POS=(15,67),                                     X
+               LENGTH=02,                                              X
+               ATTRB=UNPROT,                                           X
+               PICIN='9(02)',                                          X
+               PICOUT='9(02)',                                         X
+               COLOR=GREEN
+         DFHMDF POS=(15,70),                                           X
+               LENGTH=1,                                               X
+               ATTRB=ASKIP
+***********************************************************************
+* INSTRUCTIONS
+***********************************************************************
+         DFHMDF POS=(16,01),                                           X
+               LENGTH=21,                                              X
+               ATTRB=PROT,                                             X
+               COLOR=GREEN,                                            X
+               INITIAL='TOTAL PREMIUM       :'
+MONTHLYNEWPREMIUM DFHMDF POS=(16,23),                                  X
+               LENGTH=07,                                              X
+               ATTRB=UNPROT,                                           X
+               PICIN='9(07)',                                          X
+               PICOUT='9(07)',                                         X
+               COLOR=GREEN
+         DFHMDF POS=(16,31),                                           X
+               LENGTH=1,                                               X
+               ATTRB=ASKIP
+***********************************************************************
+* INSTRUCTIONS
+***********************************************************************
+         DFHMDF POS=(16,45),                                           X
+               LENGTH=21,                                              X
+               ATTRB=PROT,                                             X
+               COLOR=GREEN,                                            X
+               INITIAL='TOTAL PREMIUM       :'
+YEARLYNEWPREMIUM DFHMDF POS=(16,67),                                   X
+               LENGTH=08,                                              X
+               ATTRB=UNPROT,                                           X
+               PICIN='9(08)',                                          X
+               PICOUT='9(08)',                                         X
+               COLOR=GREEN
+         DFHMDF POS=(16,76),                                           X
+               LENGTH=1,                                               X
+               ATTRB=ASKIP
+***********************************************************************
+* RESULT
+***********************************************************************
+MSG4     DFHMDF POS=(19,01),                                           X
+               LENGTH=40,                                              X
+               ATTRB=(BRT,PROT),                                       X
+               COLOR=TURQUOISE
+***********************************************************************
+* COMMANDS
+***********************************************************************
+        DFHMDF POS=(24,01),                                            X
+               LENGTH=45,                                              X
+               ATTRB=PROT,                                             X
+               COLOR=GREEN,                                            X
+               INITIAL='F3=EXIT, F4=CUSTOMER PORTAL, F5=INSERT SCREEN'
+***********************************************************************
+* END
+***********************************************************************
+         DFHMSD TYPE=FINAL
+         END
+
