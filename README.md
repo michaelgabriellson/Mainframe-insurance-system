@@ -164,7 +164,7 @@ PROJECTTXT DFHMDF POS=(05,24),
 
 ## 🎥 Demo
 
-Watch a live demonstration of the system:
+This demo showcases the system running in a mainframe environment, including screen navigation and DB2 integration.
 
 [▶️ Watch demo on YouTube](https://www.youtube.com/watch?v=9sXSpuZvVd0&t=5083s)
 
