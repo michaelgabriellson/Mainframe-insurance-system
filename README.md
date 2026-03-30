@@ -9,10 +9,15 @@ The application supports customer management, invoice handling, and statistical 
 ## 📁 Project Structure
 
 - `Source.cbl` – Main CICS program handling flow and user interaction  
-- `CUSTINFO.cbl` – Supporting module for customer-related DB2 operations  
 - `CICS.bms` – BMS mapset defining the UI screens  
 
 ---
+
+## 📌 Notes
+
+This is a simplified version of the full solution.
+
+The original project included additional modules, copybooks, DB2 table definitions and components which are not included here, but the main program demonstrates the overall structure and core functionality.
 
 ## 💼 Business Context
 
