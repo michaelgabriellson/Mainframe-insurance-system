@@ -167,3 +167,8 @@ PROJECTTXT DFHMDF POS=(05,24),
 Watch a live demonstration of the system:
 
 [▶️ Watch demo on YouTube](https://www.youtube.com/watch?v=9sXSpuZvVd0&t=5083s)
+
+Direct link:  
+https://www.youtube.com/watch?v=9sXSpuZvVd0&t=5083s
+
+(The demo starts at 1:24:43)
