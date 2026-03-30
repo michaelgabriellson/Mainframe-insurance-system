@@ -19,6 +19,17 @@ The system represents a simplified insurance platform where users can:
 
 ---
 
+## ✨ Key Features
+
+- Multi-screen CICS application (Home, Customer, Insert, Statistics)
+- Interactive user input handling via BMS maps
+- DB2 integration for persistent data storage
+- Real-time calculations (premium totals, insurance count, customer score)
+- Statistical reporting (daily, weekly, monthly, yearly)
+- Function key navigation (PF1–PF10)
+
+---
+
 ## ⚙️ System Overview
 
 Technologies used:
@@ -160,6 +171,16 @@ PROJECTTXT DFHMDF POS=(05,24),
 
 ---
 
+## 👤 My Contribution
+
+- Developed core COBOL program logic (INSMAIN)
+- Implemented DB2 integration (SELECT, INSERT, UPDATE, DELETE)
+- Built input validation and business rules
+- Worked with CICS screen handling and navigation
+- Contributed to system design and data flow
+
+---
+
 ## 📸 Demo
 
 ## 🎥 Demo
@@ -172,3 +193,11 @@ Direct link:
 https://www.youtube.com/watch?v=9sXSpuZvVd0&t=5083s
 
 (The demo starts at 1:24:43)
+
+## 📚 What I Learned
+
+- How CICS applications handle user interaction across multiple screens  
+- Working with DB2 using embedded SQL in COBOL  
+- Structuring a mainframe application with clear separation between UI, logic, and data  
+- Handling state between transactions using COMMAREA  
+- Designing simple but realistic business logic in a legacy environment  
