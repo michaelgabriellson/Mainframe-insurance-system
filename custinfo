@@ -1,0 +1,66 @@
+      ****************************************************************
+      *            IDENTIFICAITON DIVISION                         ***
+      ****************************************************************
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. CUSTINFO.
+      ****************************************************************
+      *            ENVIRONMENT DIIVISION                           ***
+      ****************************************************************
+       ENVIRONMENT DIVISION.
+       INPUT-OUTPUT SECTION.
+      ****************************************************************
+      **           DATA DIVISION                                   ***
+      ****************************************************************
+       DATA DIVISION.
+       FILE SECTION.
+       WORKING-STORAGE SECTION.
+      * WS-VARIABLES
+       01 WS-VARIABLES.
+          05 WS-PGMNAME        PIC X(8).
+      * C-CONSTANTS
+       01 C-CONSTANTS.
+          05 C-01           PIC XX   VALUE '01'.
+          05 C-99           PIC XX   VALUE '99'.
+          05 C-PGMNAME      PIC X(8) VALUE 'PROGRAM:'.
+          05 C-DATE         PIC X(5) VALUE 'DATE:'.
+      *LINKAGE SECTION
+       LINKAGE SECTION.
+       COPY CUSTA001.
+       COPY CUSTA002.
+      ****************************************************************
+      **           PROCEDURE DIVISION                              ***
+      ****************************************************************
+       PROCEDURE DIVISION USING CUSTA001
+
+                                 .
+      ****************************************************************
+      *A MAIN SECTION
+      *  THIS IS WHERE THE MAIN PRO
+      ****************************************************************
+       A-MAIN SECTION.
+           PERFORM B-INIT
+           PERFORM C-PROCESS
+           .
+           GOBACK.
+      *B INITIALIZE SECTION
+       B-INIT SECTION.
+           INITIALIZE A001-INTEREST
+           .
+      *C PROCESS SECTION
+       C-PROCESS SECTION.
+           IF  A001-PROC-CODE = '1'
+              MOVE 'OK'   TO A001-RETURNCODE
+              EVALUATE TRUE
+              WHEN A001-VIP = 'Y'
+                MOVE 500  TO A001-INTEREST
+              WHEN A001-VIP = 'N'
+                MOVE 100  TO A001-INTEREST
+              WHEN OTHER
+                MOVE 0    TO A001-INTEREST
+                MOVE 'ER' TO A001-RETURNCODE
+              END-EVALUATE
+           ELSE
+              MOVE 'ER'        TO A001-RETURNCODE
+           END-IF
+           .
+
