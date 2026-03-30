@@ -6,6 +6,12 @@ A COBOL/CICS-based insurance management system simulating a real-world enterpris
 
 The application supports customer management, invoice handling, and statistical reporting, all handled through multiple interactive CICS screens and backed by DB2.
 
+## 📁 Project Structure
+
+- `Source.cbl` – Main CICS program handling flow and user interaction  
+- `CUSTINFO.cbl` – Supporting module for customer-related DB2 operations  
+- `CICS.bms` – BMS mapset defining the UI screens  
+
 ---
 
 ## 💼 Business Context
