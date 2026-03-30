@@ -1,0 +1,1043 @@
+      ****************************************************************
+      *            IDENTIFICAITON DIVISION                         ***
+      ****************************************************************
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. INSMAIN.
+      ****************************************************************
+      *            ENVIRONMENT DIIVISION                           ***
+      ****************************************************************
+       ENVIRONMENT DIVISION.
+       INPUT-OUTPUT SECTION.
+       FILE-CONTROL.
+      ****************************************************************
+      **           DATA DIVISION                                   ***
+      ****************************************************************
+       DATA DIVISION.
+       FILE SECTION.
+       WORKING-STORAGE SECTION.
+      * WS-VARIABLES
+       01 WS-CUSTID           PIC S9(9) USAGE COMP.
+       01 WS-CUSTID2          PIC S9(9) USAGE COMP.
+       01 WS-SUM-PREMIUM      PIC S9(9) USAGE COMP.
+       01 WS-MAX-CUSTID       PIC S9(9) USAGE COMP.
+       01 WS-MAX-CUSTID2      PIC S9(9) USAGE COMP.
+       01 WS-MAX-INSNR        PIC S9(9) USAGE COMP.
+       01 WS-MAX-INSNR2       PIC S9(9) USAGE COMP.
+       01 WS-COUNT-CUSTID     PIC S9(9) USAGE COMP.
+       01 WS-PREMIUM          PIC S9(9) USAGE COMP.
+       01 WS-INSNR            PIC S9(9) USAGE COMP.
+       01 WS-INVOICEID        PIC S9(9) USAGE COMP.
+       01 WS-INVOICEID2       PIC S9(9) USAGE COMP.
+       01 WS-COMMAREA         PIC X(01).
+       01 WS-LENGTH           PIC S9(4) COMP.
+       01 WS-CURRENT-DATE     PIC 9(8).
+       01 WS-CURRENT-YEAR     PIC 9(4).
+       01 WS-FUTURE-YEAR      PIC 9(4).
+       01 WS-CURRENT-MONTH    PIC 9(2).
+       01 WS-CURRENT-DAY      PIC 9(2).
+       01 WS-FUTURE-DATE      PIC 9(8).
+       01 WS-DATE-TODAY       PIC X(10).
+       01 WS-DATE-1YEAR       PIC X(10).
+
+       01 SWITCHES            PIC 9.
+          88 1STSCR-SWITCH          VALUE 1.
+          88 2NDSCR-SWITCH          VALUE 2.
+          88 3RDSCR-SWITCH          VALUE 3.
+
+       COPY DFHAID.
+       COPY INSMAP.
+       COPY VARCOPY.
+      * DB2 AREOR
+           EXEC SQL
+             INCLUDE SQLCA
+           END-EXEC.
+      *
+       COPY CUSTINFO.
+       COPY INSINFO.
+       COPY INVOICE.
+       COPY CICSSTAT.
+
+       LINKAGE SECTION.
+       01 DFHCOMMAREA    PIC X(01).
+
+      ****************************************************************
+      **           PROCEDURE DIVISION                              ***
+      ****************************************************************
+       PROCEDURE DIVISION.
+      ****************************************************************
+      *A MAIN SECTION
+      ****************************************************************
+       A-MAIN SECTION.
+           PERFORM B-CICS-SECTION
+           GOBACK
+           .
+      ****************************************************************
+      *B CICS SECTION                                                *
+      *LOGIC FOR DIFFERENT KEY PRESSES IN CICS                       *
+      ****************************************************************
+       B-CICS-SECTION.
+
+           EVALUATE TRUE
+           WHEN EIBCALEN = ZERO
+      *       LOGIC FOR THE FIRST CALL OF THE PROGRAM
+             MOVE LOW-VALUES TO HOMESCRO
+             PERFORM C-SEND-MAP3
+           WHEN EIBAID = DFHCLEAR
+      *       LOGIC FOR WHEN THE USER PRESSES THE CLEAR KEY
+             MOVE LOW-VALUES TO COPYINSO
+             PERFORM C-SEND-MAP
+
+           WHEN EIBAID = DFHPF1 AND 1STSCR-SWITCH
+      *       LOGIC FOR WHEN THE USER PRESSES THE F1 KEY IN FIRST SCREEN
+             MOVE LOW-VALUES TO COPYINSO
+             MOVE 'ACTION: S - SELECT, D - DELETE, ACTION: U - UPDATE'
+               TO MSG1O
+             PERFORM E-SEND-DATA
+
+           WHEN EIBAID = DFHPF1 AND 2NDSCR-SWITCH
+             MOVE LOW-VALUES TO SCNDSCRO
+             MOVE 'ACTION: I - INSERT'
+               TO MSG3O
+             PERFORM E-SEND-DATA2
+
+           WHEN EIBAID = DFHPF2 AND 2NDSCR-SWITCH
+      *       LOGIC WHEN THE USER PRESSES F2 KEY ON SECOND SCREEN
+             MOVE LOW-VALUES TO SCNDSCRO
+             INITIALIZE MSG3O
+      *      PERFORM E-SEND-DATAF2
+             PERFORM D-RECEIVE-MAP2
+             MOVE 'MAX INVOICEID  :'
+               TO MAXINVIDTEXTO
+             MOVE 'MAX INSNR      :'
+               TO MAXINSNRTEXTO
+             MOVE 'MAX CUSTID     :'
+               TO MAXCUSTIDTEXTO
+             PERFORM QB-MAX-INVOICEID
+             PERFORM QB-MAX-INSNR
+             PERFORM QB-MAX-CUSTID
+             PERFORM F-DATE-CONVERSION
+             PERFORM FB-SELECT2
+             PERFORM E-SEND-DATA2
+
+           WHEN EIBAID = DFHPF3 AND 1STSCR-SWITCH
+      *       LOGIC FOR WHEN THE USER PRESSES THE F3 KEY IN FIRST SCREEN
+             MOVE LOW-VALUES TO COPYINSO
+             MOVE 'END OF PROGRAM. PRESS CLEAR'
+               TO MSG1O
+             PERFORM E-SEND-DATA
+             EXEC CICS
+               RETURN
+             END-EXEC
+
+           WHEN EIBAID = DFHPF3 AND 2NDSCR-SWITCH
+      *       LOGIC FOR WHEN THE USER PRESSES THE F3 KEY IN 2ND SCREEN
+             MOVE LOW-VALUES TO SCNDSCRO
+             MOVE 'END OF PROGRAM. PRESS CLEAR'
+               TO MSG3O
+             PERFORM E-SEND-DATA2
+             EXEC CICS
+               RETURN
+             END-EXEC
+
+           WHEN EIBAID = DFHPF3 AND 3RDSCR-SWITCH
+      *       LOGIC FOR WHEN THE USER PRESSES THE F3 KEY IN 3RD SCREEN
+             MOVE LOW-VALUES TO STATSO
+             MOVE 'END OF PROGRAM. PRESS CLEAR'
+               TO MSG4O
+             PERFORM E-SEND-DATA4
+             EXEC CICS
+               RETURN
+             END-EXEC
+
+           WHEN EIBAID = DFHPF4
+             MOVE LOW-VALUES TO COPYINSO
+             PERFORM C-SEND-MAP
+             SET 1STSCR-SWITCH TO TRUE
+
+           WHEN EIBAID = DFHPF5
+             MOVE LOW-VALUES TO SCNDSCRO
+             PERFORM C-SEND-MAP2
+             SET 2NDSCR-SWITCH TO TRUE
+
+           WHEN EIBAID = DFHPF6
+             MOVE LOW-VALUES TO STATSO
+             PERFORM C-SEND-MAP4
+             PERFORM QE-DAILYSTAT-CUST
+             PERFORM QE-DAILYSTAT-INS
+             PERFORM QE-DAILYSTAT-PREMIUM
+             PERFORM QE-WEEKLYSTAT-CUST
+             PERFORM QE-WEEKLYSTAT-INS
+             PERFORM QE-WEEKLYSTAT-PREMIUM
+             PERFORM QE-MONTHLYSTAT-CUST
+             PERFORM QE-MONTHLYSTAT-INS
+             PERFORM QE-MONTHLYSTAT-PREMIUM
+             PERFORM QE-YEARLYSTAT-CUST
+             PERFORM QE-YEARLYSTAT-INS
+             PERFORM QE-YEARLYSTAT-PREMIUM
+             PERFORM E-SEND-DATA4
+             SET 3RDSCR-SWITCH TO TRUE
+
+           WHEN EIBAID = DFHPF10 AND 2NDSCR-SWITCH
+      *       LOGIC WHEN THE USER PRESSES F10 ON SECOND SCREEN
+             MOVE LOW-VALUES TO SCNDSCRO
+             MOVE 'MAX INVOICEID  :'
+               TO MAXINVIDTEXTO
+             MOVE 'MAX INSNR      :'
+               TO MAXINSNRTEXTO
+             MOVE 'MAX CUSTID     :'
+               TO MAXCUSTIDTEXTO
+             PERFORM QB-MAX-INVOICEID
+             PERFORM QB-MAX-INSNR
+             PERFORM QB-MAX-CUSTID
+             PERFORM E-SEND-DATA2
+
+           WHEN EIBAID = DFHENTER AND 1STSCR-SWITCH
+      *       LOGIC WHEN THE USER PRESSES ENTER KEY ON FIRST SCREEN
+             MOVE LOW-VALUES TO COPYINSO
+             INITIALIZE MSG1O MSG2O
+             PERFORM D-RECEIVE-MAP
+             PERFORM F-CHECK-INPUT
+             MOVE 'TOTAL INSURANCES :'
+               TO INSURETEXTO
+             MOVE 'TOTAL PREMIUM    :'
+               TO PREMIETEXTO
+             MOVE 'CUSTOMER SCORE   :'
+               TO SCORETEXTO
+             MOVE 'MAX CUSTOMERID   :'
+               TO TOTCUSTTEXTO
+             PERFORM QB-MAX-CUSTID
+             PERFORM QB-TOT-PREMIUM
+             PERFORM QB-TOT-INSURANCE
+             INITIALIZE MSG2O
+             PERFORM E-SEND-DATA
+
+           WHEN EIBAID = DFHENTER AND 2NDSCR-SWITCH
+      *       LOGIC WHEN THE USER PRESSES ENTER KEY ON SECOND SCREEN
+             MOVE LOW-VALUES TO SCNDSCRO
+             INITIALIZE MSG3O
+             PERFORM D-RECEIVE-MAP2
+             PERFORM F-CHECK-INPUT2
+             PERFORM QB-MAX-INVOICEID
+             PERFORM QB-MAX-INSNR
+             PERFORM QB-MAX-CUSTID
+             PERFORM E-SEND-DATA2
+
+           WHEN OTHER
+      *       LOGIC FOR ANY OTHER CASES
+              IF 1STSCR-SWITCH
+                MOVE LOW-VALUES TO COPYINSO
+                MOVE 'INVALID KEY PRESSED' TO MSG1O
+                PERFORM E-SEND-DATA
+              ELSE
+                MOVE LOW-VALUES TO SCNDSCRO
+                MOVE 'INVALID KEY PRESSED' TO MSG3O
+                PERFORM E-SEND-DATA
+              END-IF
+           END-EVALUATE
+
+           EXEC CICS
+             RETURN TRANSID('INST')
+             COMMAREA (WS-COMMAREA)
+           END-EXEC.
+      ****************************************************************
+      *C SEND MAP SECTION                                            *
+      *FIRST OUTPUT OF TEXT TO CICS FIRST MAP                        *
+      ****************************************************************
+       C-SEND-MAP SECTION.
+           EXEC CICS SEND
+             MAP     ('COPYINS')
+             MAPSET  ('INSMAP')
+             FROM    (COPYINSO)
+             ERASE
+           END-EXEC
+           .
+      ****************************************************************
+      *C SEND MAP SECTION                                            *
+      *FIRST OUTPUT OF TEXT TO CICS FIRST MAP                        *
+      ****************************************************************
+       C-SEND-MAP2 SECTION.
+           EXEC CICS SEND
+             MAP     ('SCNDSCR')
+             MAPSET  ('INSMAP')
+             FROM    (SCNDSCRO)
+             ERASE
+           END-EXEC
+           .
+      ****************************************************************
+      *C SEND MAP SECTION                                            *
+      *FIRST OUTPUT OF TEXT TO CICS FIRST MAP                        *
+      ****************************************************************
+       C-SEND-MAP3 SECTION.
+           EXEC CICS SEND
+             MAP     ('HOMESCR')
+             MAPSET  ('INSMAP')
+             FROM    (HOMESCRO)
+             ERASE
+           END-EXEC
+           .
+      ****************************************************************
+      *C SEND MAP SECTION                                            *
+      *FIRST OUTPUT OF TEXT TO CICS FIRST MAP                        *
+      ****************************************************************
+       C-SEND-MAP4 SECTION.
+           EXEC CICS SEND
+             MAP     ('STATS')
+             MAPSET  ('INSMAP')
+             FROM    (STATSO)
+             ERASE
+           END-EXEC
+           .
+      ****************************************************************
+      *D RECEIVE MAP SECTION                                         *
+      *RECEIVES INPUT FROM FIELDS IN CICS FIRST SCREEN               *
+      ****************************************************************
+       D-RECEIVE-MAP SECTION.
+           EXEC CICS RECEIVE
+             MAP     ('COPYINS')
+             MAPSET  ('INSMAP')
+             INTO    (COPYINSI)
+           END-EXEC
+           .
+      ****************************************************************
+      *D RECEIVE MAP SECTION                                         *
+      *RECEIVES INPUT FROM FIELDS IN CICS 2ND SCREEN                 *
+      ****************************************************************
+       D-RECEIVE-MAP2 SECTION.
+           EXEC CICS RECEIVE
+             MAP     ('SCNDSCR')
+             MAPSET  ('INSMAP')
+             INTO    (SCNDSCRI)
+           END-EXEC
+           .
+      ****************************************************************
+      *D RECEIVE MAP SECTION                                         *
+      *RECEIVES INPUT FROM FIELDS IN CICS 2ND SCREEN                 *
+      ****************************************************************
+       D-RECEIVE-MAP4 SECTION.
+           EXEC CICS RECEIVE
+             MAP     ('STATS')
+             MAPSET  ('INSMAP')
+             INTO    (STATSI)
+           END-EXEC
+           .
+      ****************************************************************
+      *E SEND DATA SECTION                                           *
+      *SECOND OUTPUT OF TEXT TO CICS MAP BASED ON INPUT              *
+      ****************************************************************
+       E-SEND-DATA SECTION.
+           EXEC CICS SEND
+             MAP     ('COPYINS')
+             MAPSET  ('INSMAP')
+             FROM    (COPYINSO)
+             DATAONLY
+           END-EXEC
+           .
+      ****************************************************************
+      *E SEND DATA SECTION                                           *
+      *SECOND OUTPUT OF TEXT TO CICS MAP BASED ON INPUT              *
+      ****************************************************************
+       E-SEND-DATA2 SECTION.
+           EXEC CICS SEND
+             MAP     ('SCNDSCR')
+             MAPSET  ('INSMAP')
+             FROM    (SCNDSCRO)
+             DATAONLY
+           END-EXEC
+           .
+      ****************************************************************
+      *E SEND DATA SECTION                                           *
+      *SECOND OUTPUT OF TEXT TO CICS MAP BASED ON INPUT              *
+      ****************************************************************
+       E-SEND-DATAF2 SECTION.
+           EXEC CICS SEND
+             MAP     ('SCNDSCR')
+             MAPSET  ('INSMAP')
+             DATAONLY
+           END-EXEC
+           .
+      ****************************************************************
+      *E SEND DATA SECTION                                           *
+      *SECOND OUTPUT OF TEXT TO CICS MAP BASED ON INPUT              *
+      ****************************************************************
+       E-SEND-DATA4 SECTION.
+           EXEC CICS SEND
+             MAP     ('STATS')
+             MAPSET  ('INSMAP')
+             FROM    (STATSO)
+             DATAONLY
+           END-EXEC
+           .
+      ****************************************************************
+      *F CHECK INPUT SECTION                                         *
+      ****************************************************************
+       F-CHECK-INPUT SECTION.
+           EVALUATE ACTIONI
+           WHEN 'S'
+             PERFORM FB-SELECT
+           WHEN 'D'
+             PERFORM FC-DELETE
+           WHEN 'U'
+             PERFORM FD-UPDATE
+           WHEN OTHER
+             MOVE 'WRONG INPUT IN ACTION FIELD' TO MSG1O
+           END-EVALUATE
+           .
+      ****************************************************************
+      *F CHECK INPUT2 SECTION                                        *
+      ****************************************************************
+       F-CHECK-INPUT2 SECTION.
+           EVALUATE ACTION2I
+            WHEN 'I'
+              PERFORM FA-INSERT
+            WHEN OTHER
+              MOVE 'WRONG INPUT IN ACTION FIELD' TO MSG3O
+           END-EVALUATE
+           .
+       F-DATE-CONVERSION SECTION.
+           MOVE FUNCTION CURRENT-DATE(1:8) TO WS-CURRENT-DATE
+
+           MOVE WS-CURRENT-DATE(1:4) TO WS-CURRENT-YEAR
+           MOVE WS-CURRENT-DATE(5:2) TO WS-CURRENT-MONTH
+           MOVE WS-CURRENT-DATE(7:2) TO WS-CURRENT-DAY
+
+           COMPUTE WS-FUTURE-YEAR = WS-CURRENT-YEAR + 1
+
+           STRING WS-CURRENT-YEAR '-' WS-CURRENT-MONTH '-'
+                  WS-CURRENT-DAY DELIMITED BY SIZE INTO WS-DATE-TODAY
+
+           STRING WS-FUTURE-YEAR '-' WS-CURRENT-MONTH '-' WS-CURRENT-DAY
+              DELIMITED BY SIZE INTO WS-DATE-1YEAR
+
+           MOVE WS-DATE-TODAY TO STARTDATEO
+           MOVE WS-DATE-1YEAR TO EXPIRYDATEO
+           .
+      ****************************************************************
+      *FA-INSERT SECTION                                             *
+      *COBOL LOGIC AND MESSAGE SENT AT INCORRECT INPUT FOR INSERT    *
+      ****************************************************************
+       FA-INSERT SECTION.
+           INITIALIZE TOTCUSTO
+           INITIALIZE TOTPREMIEO
+           INITIALIZE TOTINSUREO
+           IF  CUSTID2I > SPACE
+           AND FNAME2I  > SPACE
+           AND LNAME2I  > SPACE
+           AND ADDRESS2I > SPACE
+           AND EMAIL2I  > SPACE
+           AND PHONE2I  > SPACE
+           AND DOB2I       > SPACE
+           AND INSNRI      > SPACE
+           AND INSTYPEI    > SPACE
+           AND STARTDATEI  > SPACE
+           AND EXPIRYDATEI > SPACE
+           AND PREMIE2I    > SPACE
+           AND INVOICEIDI  > SPACE
+             MOVE  CUSTID2I     TO CUSTID IN DCLCUSTINFO
+             MOVE  FNAME2I      TO FIRSTNAME
+             MOVE  LNAME2I      TO LASTNAME
+             MOVE  ADDRESS2I    TO CADDRESS
+             MOVE  EMAIL2I      TO EMAIL
+             MOVE  PHONE2I      TO PHONE
+             MOVE  DOB2I        TO DOB
+             MOVE  INSNRI       TO INSNR IN DCLINSINFO
+             MOVE  INSTYPEI     TO INSTYPE
+             MOVE  STARTDATEI   TO STARTDATE
+             MOVE  EXPIRYDATEI  TO EXPIRYDATE
+             MOVE  PREMIE2I     TO PREMIUM
+             MOVE  INVOICEIDI   TO INVOICEID IN DCLINVOICE
+
+           ELSE
+            MOVE 'ALL FIELDS ARE REQUIRED'
+              TO MSG3O
+           END-IF
+
+           EVALUATE TRUE
+             WHEN CUSTID2I <= WS-MAX-CUSTID AND SQLCODE = 0
+              PERFORM QA-INSERT2-INSINFO
+              PERFORM QA-INSERT3-INVOICE
+              MOVE 'INSERT(2) SUCCESSFUL' TO MSG3O
+             WHEN CUSTID2I >= WS-MAX-CUSTID AND SQLCODE = 0
+              PERFORM QA-INSERT-CUSTINFO
+              PERFORM QA-INSERT2-INSINFO
+              PERFORM QA-INSERT3-INVOICE
+              MOVE 'INSERT(3) SUCCESSFUL' TO MSG3O
+             WHEN SQLCODE = 100
+              PERFORM X-EXIT
+              MOVE 'ERROR IN SQL - PROGRAM EXIT' TO MSG3O
+             WHEN OTHER
+              MOVE 'ALL FIELDS NEED TO BE ENTERED' TO MSG3O
+           END-EVALUATE
+           .
+      ****************************************************************
+      *FB-SELECT SECTION                                             *
+      *COBOL LOGIC AND MESSAGE SENT AT INCORRECT INPUT FOR SELECT.   *
+      ****************************************************************
+       FB-SELECT SECTION.
+           EVALUATE TRUE
+           WHEN CUSTIDI > SPACE
+             MOVE  CUSTIDI TO WS-CUSTID
+             PERFORM QB-SELECT-CUSTINFO
+             PERFORM QB-MAX-INVOICEID
+
+               IF SQLCODE = 0
+                 MOVE WS-CUSTID TO CUSTIDO
+                 MOVE FIRSTNAME  TO FNAMEO
+                 MOVE LASTNAME  TO LNAMEO
+                 MOVE CADDRESS  TO ADDRESSO
+                 MOVE EMAIL     TO EMAILO
+                 MOVE PHONE     TO PHONEO
+                 MOVE DOB       TO DOBO
+               END-IF
+
+           WHEN OTHER
+             MOVE '  CUSTID IS REQUIRED' TO MSG1O
+           END-EVALUATE
+           .
+      ****************************************************************
+      *FB-SELECT SECTION                                             *
+      *COBOL LOGIC AND MESSAGE SENT AT INCORRECT INPUT FOR SELECT.   *
+      ****************************************************************
+       FB-SELECT2 SECTION.
+           INITIALIZE MSG3O
+           IF SQLCODE = 0
+           EVALUATE TRUE
+             WHEN CUSTID2I > 0 AND CUSTID2I <= WS-MAX-CUSTID
+               MOVE  CUSTID2I TO WS-CUSTID
+               PERFORM QB-SELECT-CUSTINFO
+                   MOVE FIRSTNAME  TO FNAME2O
+                   MOVE LASTNAME  TO LNAME2O
+                   MOVE CADDRESS  TO ADDRESS2O
+                   MOVE EMAIL     TO EMAIL2O
+                   MOVE PHONE     TO PHONE2O
+                   MOVE DOB       TO DOB2O
+                   MOVE WS-INVOICEID2 TO INVOICEIDO
+                   MOVE WS-MAX-INSNR2 TO INSNRO
+             WHEN  CUSTID2I > WS-MAX-CUSTID
+                   MOVE WS-MAX-CUSTID2 TO CUSTID2O
+                   MOVE WS-INVOICEID2  TO INVOICEIDO
+                   MOVE WS-MAX-INSNR2  TO INSNRO
+                   MOVE 'CUSTOMER DOESNT EXIST IN DB' TO MSG3O
+           END-EVALUATE
+           ELSE
+             PERFORM X-EXIT
+             MOVE 'SQL ERROR IN SELECT2' TO MSG3O
+           END-IF
+           IF  CUSTID2I = 0
+             MOVE 'PLEASE ENTER CUSTOMER ID' TO MSG3O
+           END-IF
+           .
+
+      ****************************************************************
+      *FC-DELETE SECTION                                             *
+      *COBOL LOGIC AND MESSAGE SENT AT INCORRECT INPUT FOR DELETE.   *
+      ****************************************************************
+       FC-DELETE SECTION.
+           INITIALIZE TOTCUSTO
+           IF CUSTIDI > SPACE
+             MOVE CUSTIDI    TO CUSTID    IN DCLCUSTINFO
+             MOVE INSNRI     TO INSNR     IN DCLINSINFO
+             MOVE INVOICEIDI TO INVOICEID IN DCLINVOICE
+           ELSE
+             MOVE 'ID IS REQUIRED'
+              TO MSG1O
+           END-IF
+             PERFORM QC-DELETE3-INVOICE
+             IF SQLCODE = 100
+                PERFORM X-EXIT
+             END-IF
+             PERFORM QC-DELETE2-INSINFO
+             IF SQLCODE = 100
+                PERFORM X-EXIT
+             END-IF
+             PERFORM QC-DELETE-CUSTINFO
+             IF SQLCODE = 100
+                PERFORM X-EXIT
+             END-IF
+           .
+      ****************************************************************
+      *FD-UPDATE SECTION                                             *
+      *COBOL LOGIC AND MESSAGE SENT AT INCORRECT INPUT FOR UPDATE.   *
+      ****************************************************************
+       FD-UPDATE SECTION.
+           IF  CUSTIDI   > SPACE
+           AND FNAMEI    > SPACE
+           AND LNAMEI    > SPACE
+           AND ADDRESSI  > SPACE
+           AND EMAILI    > SPACE
+           AND PHONEI    > SPACE
+           AND DOBI      > SPACE
+             MOVE CUSTIDI   TO CUSTID IN DCLCUSTINFO
+             MOVE FNAMEI    TO FIRSTNAME
+             MOVE LNAMEI    TO LASTNAME
+             MOVE ADDRESSI  TO CADDRESS
+             MOVE EMAILI    TO EMAIL
+             MOVE PHONEI    TO PHONE
+             MOVE DOBI      TO DOB
+             PERFORM QD-UPDATE-CUSTINFO
+           ELSE
+             MOVE 'ERROR IN UPDATE'
+              TO MSG1O
+           END-IF
+           .
+
+      ****************************************************************
+      *QA-INSERT-CUSTINFO SECTION                                    *
+      *SQL AND ERROR MESSAGE FOR INSERT IN CICS.                     *
+      ****************************************************************
+       QA-INSERT-CUSTINFO SECTION.
+
+           EXEC SQL
+             INSERT INTO INSURE.CUSTINFO
+                    (CUSTID,
+                     FIRSTNAME,
+                     LASTNAME,
+                     CADDRESS,
+                     EMAIL,
+                     PHONE,
+                     DOB)
+              VALUES
+                    (:DCLCUSTINFO.CUSTID,
+                     :FIRSTNAME,
+                     :LASTNAME,
+                     :CADDRESS,
+                     :EMAIL,
+                     :PHONE,
+                     :DOB)
+           END-EXEC
+           EVALUATE TRUE
+           WHEN SQLCODE = 0
+             MOVE ' INSERT SUCCESSFUL ' TO MSG3O
+           WHEN OTHER
+             MOVE ' INSERT NOT SUCCESSFUL IN CUSTINFO' TO MSG3O
+           END-EVALUATE
+           .
+
+       QA-INSERT2-INSINFO SECTION.
+           EXEC SQL
+             INSERT INTO INSURE.INSINFO
+                    (INSNR,
+                     CUSTID,
+                     INSTYPE,
+                     STARTDATE,
+                     EXPIRYDATE,
+                     PREMIUM)
+              VALUES
+                    (:DCLINSINFO.INSNR,
+                     :DCLCUSTINFO.CUSTID,
+                     :INSTYPE,
+                     :STARTDATE,
+                     :EXPIRYDATE,
+                     :PREMIUM)
+           END-EXEC
+
+           EVALUATE TRUE
+           WHEN SQLCODE = 0
+             MOVE ' INSERT SUCCESSFUL ' TO MSG3O
+           WHEN OTHER
+             MOVE ' INSERT NOT SUCCESSFUL IN INSINFO' TO MSG3O
+           END-EVALUATE
+           .
+
+       QA-INSERT3-INVOICE SECTION.
+           EXEC SQL
+             INSERT INTO INSURE.INVOICE
+                    (INSNR,
+                     CUSTID,
+                     INVOICEID)
+              VALUES
+                    (:DCLINSINFO.INSNR,
+                     :DCLCUSTINFO.CUSTID,
+                     :DCLINVOICE.INVOICEID)
+           END-EXEC
+
+           EVALUATE TRUE
+           WHEN SQLCODE = 0
+             MOVE ' INSERT SUCCESSFUL ' TO MSG3O
+           WHEN OTHER
+             MOVE ' INSERT NOT SUCCESSFUL IN INVOICE' TO MSG3O
+           END-EVALUATE
+           .
+      ****************************************************************
+      *QB-CUSTOMER SCORE SECTION                                     *
+      ****************************************************************
+       QB-CUST-SCORE SECTION.
+           EVALUATE TRUE
+             WHEN TOTINSUREO >= 5
+               MOVE 10 TO CUSTSCOREO
+             WHEN TOTINSUREO = 4
+               MOVE 8 TO CUSTSCOREO
+             WHEN TOTINSUREO = 3
+               MOVE 6 TO CUSTSCOREO
+             WHEN TOTINSUREO = 2
+               MOVE 4 TO CUSTSCOREO
+             WHEN TOTINSUREO = 1
+               MOVE 2 TO CUSTSCOREO
+           END-EVALUATE
+           .
+      ****************************************************************
+      *QB-SELECT-CUSTINFO SECTION                                    *
+      ****************************************************************
+       QB-SELECT-CUSTINFO SECTION.
+
+           EXEC SQL
+             SELECT  CUSTID,
+                     FIRSTNAME,
+                     LASTNAME,
+                     CADDRESS,
+                     EMAIL,
+                     PHONE,
+                     DOB
+             INTO   :DCLCUSTINFO.CUSTID,
+                    :FIRSTNAME,
+                    :LASTNAME,
+                    :CADDRESS,
+                    :EMAIL,
+                    :PHONE,
+                    :DOB
+             FROM INSURE.CUSTINFO
+             WHERE CUSTID = :WS-CUSTID
+           END-EXEC
+
+           EVALUATE TRUE
+           WHEN SQLCODE = 0
+             MOVE 'SELECT SUCCESSFUL ' TO MSG1O
+           WHEN OTHER
+             MOVE 'SELECT NOT SUCCESFUL' TO MSG1O
+           END-EVALUATE
+           .
+
+       QB-MAX-INVOICEID SECTION.
+           EXEC SQL
+             SELECT  MAX(INVOICEID)
+             INTO   :DCLINVOICE.INVOICEID
+             FROM INSURE.INVOICE
+           END-EXEC
+           IF SQLCODE = 100
+             PERFORM X-EXIT
+           END-IF
+           MOVE INVOICEID IN DCLINVOICE TO MAXINVOICEIDO
+           COMPUTE WS-INVOICEID2 = INVOICEID IN DCLINVOICE + 1
+           .
+       QB-MAX-INSNR SECTION.
+
+           EXEC SQL
+             SELECT  MAX(INSNR)
+             INTO   :DCLINSINFO.INSNR
+             FROM INSURE.INSINFO
+           END-EXEC
+           IF SQLCODE = 100
+             PERFORM X-EXIT
+           END-IF
+           MOVE INSNR IN DCLINSINFO TO MAXINSNRO
+           COMPUTE WS-MAX-INSNR2 = INSNR IN DCLINSINFO + 1
+           .
+      ****************************************************************
+      *QB-MAX-CUSTID SECTION                                         *
+      ****************************************************************
+       QB-MAX-CUSTID SECTION.
+           EXEC SQL
+             SELECT MAX(CUSTID)
+             INTO :DCLCUSTINFO.CUSTID
+             FROM INSURE.CUSTINFO
+           END-EXEC
+
+           EVALUATE TRUE
+           WHEN SQLCODE = 100
+              PERFORM X-EXIT
+           END-EVALUATE
+           MOVE CUSTID IN DCLCUSTINFO TO WS-MAX-CUSTID
+           MOVE WS-MAX-CUSTID  TO TOTCUSTO
+           MOVE WS-MAX-CUSTID  TO MAXCUSTIDO
+           COMPUTE WS-MAX-CUSTID2 = WS-MAX-CUSTID + 1
+           .
+      ****************************************************************
+      *QB-TOT-PREMIUM SECTION                                        *
+      ****************************************************************
+       QB-TOT-PREMIUM SECTION.
+           EXEC SQL
+             SELECT SUM(A.PREMIUM)
+             INTO :WS-SUM-PREMIUM
+             FROM INSURE.INSINFO A
+             INNER JOIN INSURE.CUSTINFO B ON A.CUSTID = B.CUSTID
+             WHERE B.CUSTID = :WS-CUSTID
+           END-EXEC
+
+           EVALUATE TRUE
+           WHEN SQLCODE = 100
+              PERFORM X-EXIT
+           END-EVALUATE
+           MOVE WS-SUM-PREMIUM  TO TOTPREMIEO
+           .
+      ****************************************************************
+      *QB-TOT-INSURANCE SECTION                                      *
+      ****************************************************************
+       QB-TOT-INSURANCE SECTION.
+           EXEC SQL
+             SELECT COUNT(A.INSNR)
+             INTO :WS-MAX-INSNR
+             FROM INSURE.INSINFO A
+             INNER JOIN INSURE.CUSTINFO B ON A.CUSTID = B.CUSTID
+             WHERE B.CUSTID = :WS-CUSTID
+           END-EXEC
+
+           EVALUATE TRUE
+           WHEN SQLCODE = 100
+              PERFORM X-EXIT
+           END-EVALUATE
+           MOVE WS-MAX-INSNR   TO TOTINSUREO
+           PERFORM QB-CUST-SCORE
+           .
+      ****************************************************************
+      *QC-DELETE-CUSTINFO SECTION                                    *
+      *SQL AND ERROR MESSAGE FOR DELETE IN CICS.                     *
+      ****************************************************************
+       QC-DELETE-CUSTINFO SECTION.
+
+           EXEC SQL
+             DELETE FROM INSURE.CUSTINFO
+             WHERE CUSTID = :DCLCUSTINFO.CUSTID
+           END-EXEC
+      *
+           EVALUATE TRUE
+           WHEN SQLCODE = 0
+             MOVE 'DELETE SUCCESSFUL' TO MSG1O
+           WHEN OTHER
+             MOVE '  DELETE NOT SUCCESSFUL IN CUSTINFO' TO MSG1O
+           END-EVALUATE
+           .
+       QC-DELETE2-INSINFO SECTION.
+
+           EXEC SQL
+             DELETE FROM INSURE.INSINFO
+             WHERE CUSTID = :DCLCUSTINFO.CUSTID
+           END-EXEC
+      *
+           EVALUATE TRUE
+           WHEN SQLCODE = 0
+             MOVE 'DELETE SUCCESSFUL ' TO MSG1O
+           WHEN OTHER
+             MOVE '  DELETE NOT SUCCESSFUL IN INSINFO' TO MSG1O
+           END-EVALUATE
+           .
+
+       QC-DELETE3-INVOICE SECTION.
+
+           EXEC SQL
+             DELETE FROM INSURE.INVOICE
+             WHERE CUSTID = :DCLCUSTINFO.CUSTID
+           END-EXEC
+      *
+           EVALUATE TRUE
+           WHEN SQLCODE = 0
+             MOVE 'DELETE SUCCESSFUL ' TO MSG1O
+           WHEN OTHER
+             MOVE '  DELETE NOT SUCCESSFUL IN INVOICE' TO MSG1O
+           END-EVALUATE
+           .
+      ****************************************************************
+      *QD-UPDATE-CUSTINFO SECTION                                    *
+      *SQL AND ERROR MESSAGE FOR UPDATE IN CICS.                     *
+      ****************************************************************
+       QD-UPDATE-CUSTINFO SECTION.
+
+           EXEC SQL
+             UPDATE INSURE.CUSTINFO
+             SET CUSTID             = :DCLCUSTINFO.CUSTID,
+                 FIRSTNAME          = :FIRSTNAME,
+                 LASTNAME           = :LASTNAME,
+                 CADDRESS           = :CADDRESS,
+                 EMAIL              = :EMAIL,
+                 PHONE              = :PHONE,
+                 DOB                = :DOB
+             WHERE CUSTID = :DCLCUSTINFO.CUSTID
+           END-EXEC
+      *
+           EVALUATE TRUE
+           WHEN SQLCODE = 0
+             MOVE 'UPDATE SUCCESSFUL ' TO MSG1O
+           WHEN OTHER
+             MOVE ' UPDATE NOT SUCCESSFUL' TO MSG1O
+           END-EVALUATE
+           .
+
+      ****************************************************************
+      *QE-DAILYSTAT SECTION                                         *
+      ****************************************************************
+       QE-DAILYSTAT-CUST SECTION.
+
+           EXEC SQL
+              SELECT COUNT(DISTINCT A.CUSTID)
+                INTO :CS-DAILY-NEWCUST
+              FROM INSURE.CUSTINFO A
+              INNER JOIN INSURE.INSINFO B
+                ON A.CUSTID = B.CUSTID
+              WHERE B.STARTDATE > CURRENT DATE - 1 DAY
+           END-EXEC
+           EVALUATE TRUE
+           WHEN SQLCODE = 100
+             PERFORM X-EXIT
+           END-EVALUATE
+           MOVE CS-DAILY-NEWCUST TO DAILYNEWCUSTO
+           .
+
+       QE-DAILYSTAT-INS SECTION.
+           EXEC SQL
+              SELECT COUNT(INSNR)
+                INTO :CS-DAILY-NEWINS
+                FROM INSURE.INSINFO
+              WHERE STARTDATE > CURRENT DATE - 1 DAY
+           END-EXEC
+           EVALUATE TRUE
+           WHEN SQLCODE = 100
+             PERFORM X-EXIT
+           END-EVALUATE
+           MOVE CS-DAILY-NEWINS TO DAILYNEWINSO
+           .
+       QE-DAILYSTAT-PREMIUM SECTION.
+           EXEC SQL
+              SELECT SUM(PREMIUM)
+                INTO :CS-DAILY-NEWPREMIUM
+                FROM INSURE.INSINFO
+              WHERE STARTDATE > CURRENT DATE - 1 DAY
+           END-EXEC
+           EVALUATE TRUE
+           WHEN SQLCODE = 100
+             PERFORM X-EXIT
+           END-EVALUATE
+           MOVE CS-DAILY-NEWPREMIUM TO DAILYNEWPREMIUMO
+           .
+      ****************************************************************
+      *QE-WEEKLYSTAT SECTION                                         *
+      ****************************************************************
+
+       QE-WEEKLYSTAT-CUST SECTION.
+           EXEC SQL
+              SELECT COUNT(DISTINCT A.CUSTID)
+                INTO :CS-WEEKLY-NEWCUST
+              FROM INSURE.CUSTINFO A
+              INNER JOIN INSURE.INSINFO B
+                ON A.CUSTID = B.CUSTID
+              WHERE B.STARTDATE > CURRENT DATE - 7 DAYS
+           END-EXEC
+           EVALUATE TRUE
+           WHEN SQLCODE = 100
+             PERFORM X-EXIT
+           END-EVALUATE
+           MOVE CS-WEEKLY-NEWCUST TO WEEKLYNEWCUSTO
+           .
+       QE-WEEKLYSTAT-INS  SECTION.
+           EXEC SQL
+              SELECT COUNT(INSNR)
+                INTO :CS-WEEKLY-NEWINS
+                FROM INSURE.INSINFO
+              WHERE STARTDATE > CURRENT DATE - 7 DAYS
+           END-EXEC
+           EVALUATE TRUE
+           WHEN SQLCODE = 100
+             PERFORM X-EXIT
+           END-EVALUATE
+           MOVE CS-WEEKLY-NEWINS TO WEEKLYNEWINSO
+           .
+       QE-WEEKLYSTAT-PREMIUM SECTION.
+           EXEC SQL
+              SELECT SUM(PREMIUM)
+                INTO :CS-WEEKLY-NEWPREMIUM
+                FROM INSURE.INSINFO
+              WHERE STARTDATE > CURRENT DATE - 7 DAYS
+           END-EXEC
+           EVALUATE TRUE
+           WHEN SQLCODE = 100
+             PERFORM X-EXIT
+           END-EVALUATE
+           MOVE CS-WEEKLY-NEWPREMIUM TO WEEKLYNEWPREMIUMO
+           .
+      ****************************************************************
+      *QE-MONTHLYSTAT SECTION                                         *
+      ****************************************************************
+       QE-MONTHLYSTAT-CUST SECTION.
+           EXEC SQL
+              SELECT COUNT(DISTINCT A.CUSTID)
+                INTO :CS-MONTHLY-NEWCUST
+              FROM INSURE.CUSTINFO A
+              INNER JOIN INSURE.INSINFO B
+                ON A.CUSTID = B.CUSTID
+              WHERE B.STARTDATE > CURRENT DATE - 1 MONTH
+           END-EXEC
+           EVALUATE TRUE
+           WHEN SQLCODE = 100
+             PERFORM X-EXIT
+           END-EVALUATE
+           MOVE CS-MONTHLY-NEWCUST TO MONTHLYNEWCUSTO
+           .
+       QE-MONTHLYSTAT-INS  SECTION.
+           EXEC SQL
+              SELECT COUNT(INSNR)
+                INTO :CS-MONTHLY-NEWINS
+                FROM INSURE.INSINFO
+              WHERE STARTDATE > CURRENT DATE - 1 MONTH
+           END-EXEC
+           EVALUATE TRUE
+           WHEN SQLCODE = 100
+             PERFORM X-EXIT
+           END-EVALUATE
+           MOVE CS-MONTHLY-NEWINS TO MONTHLYNEWINSO
+           .
+       QE-MONTHLYSTAT-PREMIUM SECTION.
+           EXEC SQL
+              SELECT SUM(PREMIUM)
+                INTO :CS-MONTHLY-NEWPREMIUM
+                FROM INSURE.INSINFO
+              WHERE STARTDATE > CURRENT DATE - 1 MONTH
+           END-EXEC
+           EVALUATE TRUE
+           WHEN SQLCODE = 100
+             PERFORM X-EXIT
+           END-EVALUATE
+           MOVE CS-MONTHLY-NEWPREMIUM TO MONTHLYNEWPREMIUMO
+           .
+       QE-YEARLYSTAT-CUST SECTION.
+           EXEC SQL
+              SELECT COUNT(DISTINCT A.CUSTID)
+                INTO :CS-YEARLY-NEWCUST
+              FROM INSURE.CUSTINFO A
+              INNER JOIN INSURE.INSINFO B
+                ON A.CUSTID = B.CUSTID
+              WHERE B.STARTDATE > CURRENT DATE - 1 YEAR
+           END-EXEC
+           MOVE CS-YEARLY-NEWCUST TO YEARLYNEWCUSTO
+           .
+       QE-YEARLYSTAT-INS  SECTION.
+           EXEC SQL
+              SELECT COUNT(INSNR)
+                INTO :CS-YEARLY-NEWINS
+                FROM INSURE.INSINFO
+              WHERE STARTDATE > CURRENT DATE - 1 YEAR
+           END-EXEC
+           EVALUATE TRUE
+           WHEN SQLCODE = 100
+             PERFORM X-EXIT
+           END-EVALUATE
+           MOVE CS-YEARLY-NEWINS TO YEARLYNEWINSO
+           .
+       QE-YEARLYSTAT-PREMIUM SECTION.
+           EXEC SQL
+              SELECT SUM(PREMIUM)
+                INTO :CS-YEARLY-NEWPREMIUM
+                FROM INSURE.INSINFO
+              WHERE STARTDATE > CURRENT DATE - 1 YEAR
+           END-EXEC
+           EVALUATE TRUE
+           WHEN SQLCODE = 100
+             PERFORM X-EXIT
+           END-EVALUATE
+           MOVE CS-YEARLY-NEWPREMIUM TO YEARLYNEWPREMIUMO
+           .
+
+      ****************************************************************
+      *X-EXIT SECTION                                                *
+      ****************************************************************
+       X-EXIT SECTION.
+           DISPLAY ' '
+           EXIT PROGRAM
+           .
+
